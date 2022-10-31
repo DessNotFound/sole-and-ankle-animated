@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { QUERIES, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import Icon from '../Icon';
-import UnstyledButton from '../UnstyledButton';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
-import VisuallyHidden from '../VisuallyHidden';
+import { QUERIES, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import VisuallyHidden from "../VisuallyHidden";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -20,12 +20,30 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <ShownNav>Sale</ShownNav>
+            <HiddenNav aria-hidden={true}>Sale</HiddenNav>
+          </NavLink>
+          <NavLink href="/new">
+            <ShownNav> New&nbsp;Releases</ShownNav>
+            <HiddenNav aria-hidden={true}> New&nbsp;Releases</HiddenNav>
+          </NavLink>
+          <NavLink href="/men">
+            <ShownNav>Men</ShownNav>
+            <HiddenNav aria-hidden={true}>Men</HiddenNav>
+          </NavLink>
+          <NavLink href="/women">
+            <ShownNav> Women</ShownNav>
+            <HiddenNav aria-hidden={true}>Women</HiddenNav>
+          </NavLink>
+          <NavLink href="/kids">
+            <ShownNav>Kids</ShownNav>
+            <HiddenNav aria-hidden={true}>Kids</HiddenNav>
+          </NavLink>
+          <NavLink href="/collections">
+            <ShownNav> Collections</ShownNav>
+            <HiddenNav aria-hidden={true}>Collections</HiddenNav>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -115,14 +133,49 @@ const Filler = styled.div`
 `;
 
 const NavLink = styled.a`
+  position: relative;
+  display: block;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
 
+  /* For focus animation */
+  overflow: hidden;
+
   &:first-of-type {
     color: var(--color-secondary);
+  }
+`;
+
+const ShownNav = styled.div`
+  transform: translateY(0%);
+  transition: transform 500ms;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${NavLink}:hover & {
+      transform: translateY(-100%);
+      transition: transform 300ms;
+    }
+  }
+`;
+
+const HiddenNav = styled.div`
+  font-weight: ${WEIGHTS.bold};
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(100%);
+  transition: transform 500ms;
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${NavLink}:hover & {
+      transform: translateY(0%);
+      transition: transform 300ms;
+    }
   }
 `;
 
